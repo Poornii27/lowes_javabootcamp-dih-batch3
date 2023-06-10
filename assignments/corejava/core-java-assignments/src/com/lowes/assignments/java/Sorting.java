@@ -7,10 +7,15 @@ public class Sorting {
         if (args.length > 0)
         {
             int arr[] = new int[args.length];
+            System.out.print("Numbers entered are \n" );
+            //System.out.print(arr[a] + " ");
             for (int a=0;a<args.length;a++)
             {
                 arr[a] = Integer.parseInt(args[a]);
+                System.out.print(arr[a] + " ");
             }
+
+            System.out.print("\nNumbers after Sorting \n");
 
             for (int i = 0; i < arr.length; i++) {
                 for (int j = i + 1; j < arr.length; j++) {
@@ -21,9 +26,10 @@ public class Sorting {
                         arr[j] = temp;
                     }
                 }
+
                 System.out.print(arr[i] + " ");
             }
-    }
+        }
 
     }
 }

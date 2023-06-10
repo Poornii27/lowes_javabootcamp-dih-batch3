@@ -7,11 +7,12 @@ public class SwapNumbers {
         int temp = a;
 
 
-            a = b;
-            b = temp;
+        a = b;
+        b = temp;
 
         System.out.println("Value of a is" + a);
         System.out.println("Value of b is" + b);
 
     }
 }
+
