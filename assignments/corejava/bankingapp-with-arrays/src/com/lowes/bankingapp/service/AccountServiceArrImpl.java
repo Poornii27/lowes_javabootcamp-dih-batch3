@@ -7,7 +7,7 @@ import javax.swing.*;
 
 
 public class AccountServiceArrImpl implements AccountService {
-    private Account[] accounts = new Account[10];
+    private Account[] accounts = new Account[5];
     int index = 0;
 
     @Override
@@ -19,7 +19,7 @@ public class AccountServiceArrImpl implements AccountService {
     @Override
     public Account[] getAccounts() {
         Account[] accounts1 = this.accounts;
-        return accounts1;
+        return (accounts1);
     }
 
     @Override

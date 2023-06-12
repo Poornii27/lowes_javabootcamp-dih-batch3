@@ -30,8 +30,14 @@ public class BankingAppMain {
                 case 1:
                     System.out.println("Creating an Account....");
                     in = new Scanner(System.in);
-                    Account acc = captureAccountDetails();
-                    accService.createAccount(acc);
+
+                    Account[] accarr = new Account[5];
+                    for(int i = 0;i <accarr.length;i++) {
+                        Account newacc = captureAccountDetails();
+                        accarr[i] = newacc;
+                        accService.createAccount(newacc);
+                    }
+                    System.out.println("Accounts created successfully, Enter an option to proceed");
                     break;
                 case 2:
                     System.out.println("Listing all Accounts....");
