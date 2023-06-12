@@ -71,7 +71,6 @@ public class BankingAppMain {
                     in = new Scanner(System.in);
                     int id3 = in.nextInt();
 
-                   /* Account accountforUpdate = new Account();*/
                     Account accountforUpdate = captureAccountDetails();
 
                     try {

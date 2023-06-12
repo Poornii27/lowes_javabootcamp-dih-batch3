@@ -31,7 +31,7 @@ public class AccountServiceArrImpl implements AccountService {
             }
         }
         if (acc == null) {
-            throw new AccountException("Enter a valid Account Id");
+            throw new AccountException("Account not found!");
         }
         return acc;
     }
