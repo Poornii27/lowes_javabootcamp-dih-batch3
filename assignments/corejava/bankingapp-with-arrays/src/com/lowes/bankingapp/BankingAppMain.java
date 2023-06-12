@@ -71,8 +71,8 @@ public class BankingAppMain {
                     in = new Scanner(System.in);
                     int id3 = in.nextInt();
 
-                    Account accountforUpdate = new Account();
-                    accountforUpdate = captureAccountDetails();
+                   /* Account accountforUpdate = new Account();*/
+                    Account accountforUpdate = captureAccountDetails();
 
                     try {
                         accService.updateAccount(id3,accountforUpdate);
@@ -87,7 +87,6 @@ public class BankingAppMain {
                 case 5:
                     System.out.println("Delete an Account for given Account ID.....");
                     System.out.println("Enter Account ID to be deleted: ");
-                    //Account[] array1 = accService.getAccounts();
                     in = new Scanner(System.in);
                     int id5 = in.nextInt();
 
@@ -107,45 +106,6 @@ public class BankingAppMain {
             }
         } while (choice != 6);
     }
-
-
-        // Menu
-        // 1. Create Account
-        // 2. List Accounts
-        // 3. View Account
-        // 4. Update Account
-        // 6. Delete Account
-        // 7. Exit
-
-
-//        acc = captureAccountDetails();
-//        accService.createAccount(acc);
-//        acc = captureAccountDetails();
-//        accService.createAccount(acc);
-
-        // 2. View all Accounts
-    /*    Account[] accounts = accService.getAccounts();
-        for(Account account: accounts) {
-            if(account != null) {
-                System.out.println(account);
-            }
-        }*/
-
-//        // 3. View an Account for given Account ID
-//        System.out.println("Fetching Account " + 102);
-//        Account account = accService.getAccount(102);
-//        System.out.println(account);
-//
-//        // 4. Update an Account for given Account ID
-//        Account accountForUpdate = new Account(102, "Neha", "Deposit", 75000.0, true);
-//        accService.updateAccount(102, accountForUpdate);
-//        System.out.println(accService.getAccount(102));
-//
-//        // 5. Delete an Account for given Account ID
-//        accService.deleteAccount(102);
-//        System.out.println(accService.getAccount(102));
-
-
 
     public static  void displaymenu() {
         System.out.println("Menu:");

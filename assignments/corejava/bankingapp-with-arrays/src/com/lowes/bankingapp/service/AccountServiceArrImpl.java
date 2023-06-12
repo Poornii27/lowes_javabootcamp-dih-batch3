@@ -14,13 +14,7 @@ public class AccountServiceArrImpl implements AccountService {
     public void createAccount(Account account) {
             accounts[index++] = account;
             System.out.println("Account " + account.getId() + " Created.");
-            //switch (Integer.parseInt(userChoice.nextInt()))
-            //Account acc = captureAccountDetails();
-            //accService.createAccount(acc);
-            //break;
-
-
-    }
+            }
 
     @Override
     public Account[] getAccounts() {
@@ -50,17 +44,8 @@ public class AccountServiceArrImpl implements AccountService {
                 System.out.println("Account " + accounts[i].getId() + " Updated");
 
             }
-            /*else{
-
-                throw new AccountException("Can't be updated!!!No account found for the given id " + id);
-            }*/
         }
-
-
-        }
-
-
-
+    }
 
     @Override
     public void deleteAccount(int id) throws AccountException {
