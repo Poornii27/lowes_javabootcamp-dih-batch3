@@ -6,19 +6,20 @@ import com.lowes.java.bankingapp.service.AccountService;
 
 import com.lowes.java.bankingapp.exception.AccountException;
 import com.lowes.java.bankingapp.service.AccountServiceArrLstImpl;
+import com.lowes.java.bankingapp.service.AccountServiceLnkLstImpl;
 
 import java.util.*;
 
 
 public class BankingAppMain {
 
-
+    static AccountService accService = new AccountServiceArrLstImpl();
     public static void main(String[] args) throws AccountException {
-
-       // AccountService accService = new AccountServiceArrImpl();
-         AccountService accService = new AccountServiceArrLstImpl();
-         Account[] accarr = new Account[2];
         Scanner in = new Scanner(System.in);
+
+        AccountService accService = new AccountServiceArrLstImpl();
+        //AccountService accService = new AccountServiceLnkLstImpl();
+
         int choice;
 
         do {
@@ -26,34 +27,35 @@ public class BankingAppMain {
             choice = in.nextInt();
             switch (choice) {
                 case 1:
-                    System.out.println("Creating an Account....");
-                    for(int i = 0;i <accarr.length;i++) {
+                    System.out.println("Enter the number of accounts you would like to create: ");
+                    int counter = in.nextInt();
+                    System.out.println("Creating Accounts...");
+                    for(int i = 0;i <counter;i++) {
                         Account newacc = captureAccountDetails();
                         accService.createAccount(newacc);
                     }
                     System.out.println("Accounts created successfully, Enter an option to proceed");
                     break;
 
-                    case 2:
+                case 2:
                     System.out.println("Listing all Accounts....");
                     accService.getAccounts();
-
                     break;
 
-                    case 3:
+                case 3:
                     System.out.println("View details of the given Account id...");
                     System.out.println("Enter Account ID: ");
                     int id2 = in.nextInt();
-                            accService.getAccount(id2);
+                    accService.getAccount(id2);
                     break;
 
-                    case 4:
+                case 4:
                         System.out.println("Update an Account for a given Account id...");
                         Account accountforUpdate = captureAccountDetails();
                         try {
                             accService.updateAccount(accountforUpdate.getId(),accountforUpdate);
-                        } catch(AccountException e)
-                        {
+                        }
+                        catch(AccountException e) {
                             System.out.println(e.getMessage());
                         }
                         break;
@@ -63,7 +65,6 @@ public class BankingAppMain {
                     System.out.println("Enter Account ID to be deleted: ");
 
                     int id5 = in.nextInt();
-
                     try {
                         accService.deleteAccount(id5);
                     }catch(AccountException e)
@@ -82,9 +83,9 @@ public class BankingAppMain {
 
     public static  void displaymenu() {
 
-        System.out.println("<----------Banking Application using Array List Collection--------->");
+        System.out.println("<----------Banking Application using Collections--------->");
         System.out.println("Menu:");
-        System.out.println("1.Create an Account");
+        System.out.println("1.Create Accounts");
         System.out.println("2.List all Accounts");
         System.out.println("3.View Account");
         System.out.println("4.Update Account");
@@ -95,33 +96,27 @@ public class BankingAppMain {
     public static Account captureAccountDetails() {
         Account account = new Account();
         Scanner in = new Scanner(System.in);
-
-
+        System.out.println("Enter Account ID: ");
+        int id = 0;
+        try {
+            id = in.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input,please enter only numbers");
             System.out.println("Enter Account ID: ");
-            int id =0;
-            try {
-                id = in.nextInt();
-                }catch (InputMismatchException e) {
-                System.out.println("Invalid input,please enter only numbers");
-                System.out.println("Enter Account ID: ");
-                in = new Scanner(System.in);
-                id = in.nextInt();
-
-            }
-
-            account.setId(id);
-            System.out.println("Enter Account Name: ");
-            account.setName(in.next());
-            System.out.println("Enter Account Type: ");
-            account.setType(in.next());
-            System.out.println("Enter Account Balance: ");
-            account.setBalance(in.nextDouble());
-            System.out.println("Is Account Active: ");
-            account.setActive(in.nextBoolean());
-
-            return account;
-
+            in = new Scanner(System.in);
+            id = in.nextInt();
         }
+        account.setId(id);
+        System.out.println("Enter Account Name: ");
+        account.setName(in.next());
+        System.out.println("Enter Account Type: ");
+        account.setType(in.next());
+        System.out.println("Enter Account Balance: ");
+        account.setBalance(in.nextDouble());
+        System.out.println("Is Account Active: ");
+        account.setActive(in.nextBoolean());
 
+        return account;
+    }
 }
 

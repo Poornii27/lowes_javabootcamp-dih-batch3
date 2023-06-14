@@ -3,7 +3,6 @@ package com.lowes.java.bankingapp.service;
 import com.lowes.java.bankingapp.exception.AccountException;
 import com.lowes.java.bankingapp.model.Account;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -18,7 +17,7 @@ public class AccountServiceArrLstImpl implements AccountService {
     }
 
     @Override
-    public ArrayList<Account> getAccounts() {
+    public Collection<Account> getAccounts() {
 
         Iterator it = accounts.iterator();
 
@@ -29,48 +28,49 @@ public class AccountServiceArrLstImpl implements AccountService {
     }
 
     @Override
-    public ArrayList<Account> getAccount(int id) throws AccountException {
-
+    public void getAccount(int id) throws AccountException {
+        boolean isFound = false;
         for (int i = 0; i < accounts.size(); i++) {
             if (accounts.get(i) != null && accounts.get(i).getId() == id) {
                 System.out.println("Fetching Account " + id);
                 System.out.println(accounts.get(i));
-                break;
-            }
-        else{
-            throw new AccountException("Account not found!");
+                isFound = true;
             }
         }
-        return accounts;
-
+        if(!isFound) {
+            throw new AccountException("Account not found!");
+        }
     }
 
     @Override
-    public Collection<Account> updateAccount(int id, Account account) throws AccountException {
+    public void updateAccount(int id, Account account) throws AccountException {
+        boolean isFound = false;
         for (int i = 0; i < accounts.size(); i++) {
-            if (accounts.get(i) != null && (accounts.get(i).getId() == id || accounts.get(i+1)!=null)) {
+            if (accounts.get(i) != null && accounts.get(i).getId() == id) {
                 accounts.set(i, account);
+                isFound = true;
                 System.out.println("Account " + accounts.get(i).getId() + " Updated");
                 break;
-            } else {
-                throw new AccountException("Can't Update, no Account found");
             }
         }
-
-        return accounts;
+        if (!isFound) {
+            throw new AccountException("Can't Update, no Account found");
+        }
     }
-
-
     @Override
     public void deleteAccount(int id) throws AccountException {
+        boolean isDeleted = false;
         for (int i = 0; i < accounts.size(); i++) {
             if (accounts.get(i) != null && accounts.get(i).getId() == id) {
                 accounts.remove(i);
+                isDeleted = true;
                 System.out.println("Account Deleted...");
-                break;
             }
-
         }
+        if(!isDeleted) {
+            throw new AccountException("Can't Delete, no Account found");
+        }
+
     }
 }
 
