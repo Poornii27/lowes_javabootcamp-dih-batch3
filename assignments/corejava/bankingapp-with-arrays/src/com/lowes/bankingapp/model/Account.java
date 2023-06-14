@@ -1,9 +1,5 @@
 package com.lowes.bankingapp.model;
 
-import com.lowes.bankingapp.service.AccountServiceArrImpl;
-
-import com.lowes.bankingapp.service.AccountService;
-
 public class Account {
     private int id;
     private String name;

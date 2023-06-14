@@ -51,11 +51,12 @@ public class AccountServiceArrImpl implements AccountService {
     public void deleteAccount(int id) throws AccountException {
         for(int i=0; i < accounts.length; i++) {
             if (accounts[i] != null && accounts[i].getId() == id) {
-                id = accounts[i].getId();
                 accounts[i] = null;
                 System.out.println("Account " + id + " Deleted");
+                break;
             }
-            else {
+            if(accounts[i] == null)
+            {
                 throw new AccountException("No account found for the given id. Enter valid account to delete ");
             }
         }
