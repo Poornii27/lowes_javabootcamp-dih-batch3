@@ -81,6 +81,8 @@ public class BankingAppMain {
     }
 
     public static  void displaymenu() {
+
+        System.out.println("<----------Banking Application using Array List Collection--------->");
         System.out.println("Menu:");
         System.out.println("1.Create an Account");
         System.out.println("2.List all Accounts");
