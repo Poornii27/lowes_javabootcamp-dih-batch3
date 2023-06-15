@@ -21,8 +21,13 @@ public class AccountServiceArrLstImpl implements AccountService {
 
         Iterator it = accounts.iterator();
 
-        while (it.hasNext()) {
-            System.out.println(it.next());
+        if (accounts != null) {
+            while (it.hasNext()) {
+                System.out.println(it.next());
+            }
+            if(!it.hasNext()){
+                System.out.println("No accounts found!");
+            }
         }
         return accounts;
     }

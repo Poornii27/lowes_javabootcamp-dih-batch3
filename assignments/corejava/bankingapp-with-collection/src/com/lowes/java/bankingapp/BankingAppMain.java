@@ -13,20 +13,20 @@ import java.util.*;
 
 public class BankingAppMain {
 
-    static AccountService accService = new AccountServiceArrLstImpl();
+    boolean isLinkedList = false;
+    //static AccountService accService = new AccountServiceArrLstImpl();
+    static AccountService accService = new AccountServiceLnkLstImpl();
     public static void main(String[] args) throws AccountException {
         Scanner in = new Scanner(System.in);
 
-        AccountService accService = new AccountServiceArrLstImpl();
-        //AccountService accService = new AccountServiceLnkLstImpl();
 
         int choice;
-
         do {
             displaymenu();
             choice = in.nextInt();
             switch (choice) {
                 case 1:
+                    /*===========Creating Accounts==========*/
                     System.out.println("Enter the number of accounts you would like to create: ");
                     int counter = in.nextInt();
                     System.out.println("Creating Accounts...");
@@ -38,18 +38,27 @@ public class BankingAppMain {
                     break;
 
                 case 2:
-                    System.out.println("Listing all Accounts....");
+                    /*============List all Accounts============*/
+
+                    System.out.println("Fetching Accounts....");
                     accService.getAccounts();
                     break;
 
                 case 3:
+                    /*============View Account=================*/
                     System.out.println("View details of the given Account id...");
                     System.out.println("Enter Account ID: ");
                     int id2 = in.nextInt();
-                    accService.getAccount(id2);
+                    try {
+                        accService.getAccount(id2);
+                    }
+                    catch(AccountException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 case 4:
+                    /*============Update Account===============*/
                         System.out.println("Update an Account for a given Account id...");
                         Account accountforUpdate = captureAccountDetails();
                         try {
@@ -61,6 +70,7 @@ public class BankingAppMain {
                         break;
 
                 case 5:
+                    /*============Deleting Account==============*/
                     System.out.println("Delete an Account for given Account ID.....");
                     System.out.println("Enter Account ID to be deleted: ");
 
@@ -82,8 +92,11 @@ public class BankingAppMain {
     }
 
     public static  void displaymenu() {
-
-        System.out.println("<----------Banking Application using Collections--------->");
+        String type = "Array List";
+        if(accService.getClass().getName().endsWith("AccountServiceLnkLstImpl")) {
+            type = "Linked List";
+        }
+        System.out.println("<----------Banking Application using "+type+ "--------->");
         System.out.println("Menu:");
         System.out.println("1.Create Accounts");
         System.out.println("2.List all Accounts");

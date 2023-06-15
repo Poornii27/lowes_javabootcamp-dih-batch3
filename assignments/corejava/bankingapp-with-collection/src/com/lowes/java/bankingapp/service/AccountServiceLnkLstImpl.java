@@ -12,6 +12,7 @@ import java.util.LinkedList;
 public class AccountServiceLnkLstImpl implements AccountService{
 
     List acclist = new LinkedList();
+
     @Override
     public void createAccount(Account account) throws AccountException {
         acclist.add(account);
@@ -24,6 +25,9 @@ public class AccountServiceLnkLstImpl implements AccountService{
 
         while (it.hasNext()) {
             System.out.println(it.next());
+        }
+        if (!it.hasNext()){
+            System.out.println("No accounts found!");
         }
         return acclist;
 
