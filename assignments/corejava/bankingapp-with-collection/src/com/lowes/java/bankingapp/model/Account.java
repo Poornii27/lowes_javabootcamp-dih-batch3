@@ -1,6 +1,6 @@
 package com.lowes.java.bankingapp.model;
 
-public class Account {
+public class Account implements Comparable<Account>{
     private int id;
     private String name;
     private String type;
@@ -69,4 +69,24 @@ public class Account {
                 ", active=" + active +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Account) {
+            if(this.getId() == ((Account) o).getId()) {
+                return true;
+            }
+        } return false;
+    }
+@Override
+public int compareTo(Account o)
+{
+    return o.getId() - this.getId();
+}
+
+    @Override
+    public int hashCode() {
+        return this.getId()%2;
+    }
+
 }

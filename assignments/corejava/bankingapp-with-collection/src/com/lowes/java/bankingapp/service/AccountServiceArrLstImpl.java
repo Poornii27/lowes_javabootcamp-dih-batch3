@@ -13,38 +13,27 @@ public class AccountServiceArrLstImpl implements AccountService {
     @Override
     public void createAccount(Account account) throws AccountException {
         accounts.add(account);
-        System.out.println(accounts);
     }
 
     @Override
     public Collection<Account> getAccounts() {
-
-        Iterator it = accounts.iterator();
-
-        if (accounts != null) {
-            while (it.hasNext()) {
-                System.out.println(it.next());
-            }
-            if(!it.hasNext()){
-                System.out.println("No accounts found!");
-            }
-        }
         return accounts;
     }
 
     @Override
-    public void getAccount(int id) throws AccountException {
+    public Account getAccount(int id) throws AccountException {
         boolean isFound = false;
+        Account result = new Account();
         for (int i = 0; i < accounts.size(); i++) {
             if (accounts.get(i) != null && accounts.get(i).getId() == id) {
-                System.out.println("Fetching Account " + id);
-                System.out.println(accounts.get(i));
                 isFound = true;
+                result = accounts.get(i);
             }
         }
         if(!isFound) {
             throw new AccountException("Account not found!");
         }
+        return result;
     }
 
     @Override
@@ -54,7 +43,6 @@ public class AccountServiceArrLstImpl implements AccountService {
             if (accounts.get(i) != null && accounts.get(i).getId() == id) {
                 accounts.set(i, account);
                 isFound = true;
-                System.out.println("Account " + accounts.get(i).getId() + " Updated");
                 break;
             }
         }
@@ -69,11 +57,10 @@ public class AccountServiceArrLstImpl implements AccountService {
             if (accounts.get(i) != null && accounts.get(i).getId() == id) {
                 accounts.remove(i);
                 isDeleted = true;
-                System.out.println("Account Deleted...");
             }
         }
         if(!isDeleted) {
-            throw new AccountException("Can't Delete, no Account found");
+            throw new AccountException("Can't Delete, No Account found");
         }
 
     }
