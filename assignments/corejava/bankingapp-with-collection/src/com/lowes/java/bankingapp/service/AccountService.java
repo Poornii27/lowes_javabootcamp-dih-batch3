@@ -13,5 +13,4 @@ public interface AccountService {
     public Account getAccount(int id) throws AccountException;
     public void updateAccount(int id, Account account)throws AccountException;
     public void deleteAccount(int id) throws AccountException;
-
 }

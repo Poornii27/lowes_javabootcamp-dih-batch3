@@ -7,11 +7,13 @@ import com.lowes.java.bankingapp.service.*;
 import com.lowes.java.bankingapp.exception.AccountException;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /*======================Banking Application=============*/
 
 public class BankingAppMain {
     static String nameOfTheBank = "Bank Of Bengaluru";
+    static final AtomicInteger count = new AtomicInteger(0);
 
     /*===========Different Implementations of the Banking application=========*/
 
@@ -19,8 +21,8 @@ public class BankingAppMain {
     //static AccountService accService = new AccountServiceLnkLstImpl();
     //static AccountService accService = new AccountServiceHashSetImpl();
     //static AccountService accService = new AccountServiceHashMapImpl();
-    static AccountService accService = new AccountServiceTreeSetImpl();
-    //static AccountService accService = new AccountServiceTreeMapImpl();
+    //static AccountService accService = new AccountServiceTreeSetImpl();
+    static AccountService accService = new AccountServiceTreeMapImpl();
 
 
     public static void main(String[] args) throws AccountException {
@@ -33,14 +35,14 @@ public class BankingAppMain {
             switch (choice) {
                 case 1:
                     /*===========Creating Accounts==========*/
-                    System.out.println("Enter the number of accounts you would like to create: ");
+                    System.out.println("How many accounts you would like to create? ");
                     int counter = in.nextInt();
                     System.out.println("Creating Accounts...");
                     for(int i = 0;i <counter;i++) {
-                        Account newAcc = captureAccountDetails();
+                        Account newAcc = captureAccountDetails(false);
                         accService.createAccount(newAcc);
                     }
-                    System.out.println("Accounts created successfully, Enter an option to proceed");
+                    System.out.println("Accounts created successfully, Select an option to proceed");
                     break;
 
                 case 2:
@@ -75,7 +77,7 @@ public class BankingAppMain {
                 case 4:
                     /*============Update Account===============*/
                         System.out.println("Update an Account for a given Account id...");
-                        Account accountUpdate = captureAccountDetails();
+                        Account accountUpdate = captureAccountDetails(true);
                         try {
                             accService.updateAccount(accountUpdate.getId(),accountUpdate);
                             System.out.println("Account Updated");
@@ -101,6 +103,19 @@ public class BankingAppMain {
                     catch(AccountException ex) {
                         System.out.println(ex.getMessage());}
                     break;
+               /* case 6:
+                    *//*==========Printing the Statistics*//*
+                    System.out.println("***** Printing the Statistics *****");
+                    int res1 = accService.balanceAccount();
+                    System.out.println("No of accounts with Balance over 1 lac is: "+ res1);
+                    System.out.println("***Number of accounts by the Account Type***");
+                    accService.getAccountsByType();
+                    System.out.println("***Number of accounts by the Account Type: Sorted***");
+                    accService.getAccountsByTypeSorted();
+                    System.out.println("***Average Balance by the Account Type: ");
+                    accService.getAverageBalanceByType();
+                    System.out.println("***Account Ids containing the name: Kumar");
+                    accService.getAccountIdsContainsName("Kumar");*/
 
                 case 6:
                     System.out.println("Thank you for visiting "+ nameOfTheBank +". Have a nice day!");
@@ -121,55 +136,82 @@ public class BankingAppMain {
         else if (accService.getClass().getName().endsWith("AccountServiceTreeSetImpl")) {type += "using Tree Set";}
         System.out.println("<----------"+nameOfTheBank+""+type+ "--------->");
         System.out.println("Actions:");
-        System.out.println("1.Create Accounts");
-        System.out.println("2.List all Accounts");
-        System.out.println("3.View an Account");
-        System.out.println("4.Update an Account");
-        System.out.println("5.Delete an Account");
-        System.out.println("6.Exit");
+        System.out.println("1. Create Accounts");
+        System.out.println("2. List all Accounts");
+        System.out.println("3. View an Account");
+        System.out.println("4. Update an Account");
+        System.out.println("5. Delete an Account");
+        System.out.println("6. Exit");
     }
 
     /*================Stores the details given by the user===============*/
 
-    public static Account captureAccountDetails() {
+    public static Account captureAccountDetails(boolean isUpdate) {
         Account account = new Account();
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter the Account ID: ");
-        int id = 0;
-        try { id = in.nextInt(); }
+        int id =0;
+        try {
+            if(!isUpdate) {
+                id = count.incrementAndGet();
+                System.out.println("The Account ID for the new account is: " + id);
+            }
+            else {
+                System.out.println("Enter the Account ID: ");
+                in = new Scanner(System.in);
+                id = in.nextInt();
+                in.nextLine();
+            }
+        }
         catch (InputMismatchException e) {
             System.out.println("Invalid input, please enter only numbers!");
             System.out.println("Enter the Account ID: ");
             in = new Scanner(System.in);
             id = in.nextInt();
+            in.nextLine();
         }
         account.setId(id);
 
-        System.out.println("Enter the Account Name: ");
-        account.setName(in.next());
+        System.out.println("Account Holder Name: ");
+        account.setName(in.nextLine());
 
-        System.out.println("Enter the Account Type: ");
-        account.setType(in.next());
+        System.out.println("Account Type:  ");
+        account.setType(in.nextLine());
 
-        System.out.println("Enter the Account Balance: ");
+        System.out.println("Account Balance: ");
         double balance = 0.0;
         try { balance = in.nextDouble();}
         catch (InputMismatchException e) {
             System.out.println("Invalid input, please enter only numbers; This field is decimal friendly.!");
-            System.out.println("Enter the Account Balance ");
+            System.out.println("Account Balance: ");
             in = new Scanner(System.in);
             balance = in.nextDouble();
         }
         account.setBalance(balance);
 
-        System.out.println("Is the  Account Active? ");
+        System.out.println("Is the Account Active? ");
         boolean isActive = true;
-        try {isActive = in.nextBoolean();}
+        String val= in.next();
+
+        boolean b = val.equalsIgnoreCase("n") || val.equalsIgnoreCase("no") || val.equalsIgnoreCase("false");
+        boolean b1 = val.equalsIgnoreCase("y") || val.equalsIgnoreCase("yes") || val.equalsIgnoreCase("true");
+
+        try {
+            if (b1) {
+                isActive = true;
+            } else if (b) {
+                isActive = false;
+            }
+        }
         catch (InputMismatchException e) {
-            System.out.println("Invalid input, please enter true/false");
+            System.out.println("Invalid input, please enter yes/no or true/false");
             System.out.println("Is the Account Active? ");
             in = new Scanner(System.in);
-            isActive = in.nextBoolean();
+            if(b1) {
+                isActive = true;
+            }
+            else if (b) {
+                isActive = false;
+            }
         }
         account.setActive(isActive);
 

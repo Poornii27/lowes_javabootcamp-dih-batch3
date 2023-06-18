@@ -1,6 +1,6 @@
 package com.lowes.java.bankingapp.model;
 
-public class Account implements Comparable<Account>{
+public class Account{
     private int id;
     private String name;
     private String type;
@@ -78,11 +78,6 @@ public class Account implements Comparable<Account>{
             }
         } return false;
     }
-@Override
-public int compareTo(Account o)
-{
-    return o.getId() - this.getId();
-}
 
     @Override
     public int hashCode() {

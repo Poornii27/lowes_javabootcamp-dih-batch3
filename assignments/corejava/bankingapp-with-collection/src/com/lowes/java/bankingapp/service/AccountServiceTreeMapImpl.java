@@ -4,18 +4,34 @@ import com.lowes.java.bankingapp.exception.AccountException;
 import com.lowes.java.bankingapp.model.Account;
 
 import java.util.*;
+import java.util.function.DoublePredicate;
 
 public class AccountServiceTreeMapImpl implements AccountService {
-    TreeMap<Integer, Account> accTreeMap = new TreeMap<>();
-
     //Using Comparator to perform Sorting
-    private static Comparator<Account> SORT_BY_ID_ASC = new Comparator<Account>() {
+    Comparator<Integer> SORT_BY_ID_ASC = new Comparator<>() {
 
         @Override
-        public int compare(Account o1, Account o2) {
-            return o1.getId() - o2.getId();
+        public int compare(Integer o1, Integer o2) {
+            return o1 - o2;
         }
     };
+    Comparator<Integer> SORT_BY_ID_DESC = new Comparator<>() {
+
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            return o2 - o1;
+        }
+    };
+
+    Comparator<Map.Entry<String, Integer>> comp = new Comparator<Map.Entry<String, Integer>>() {
+        @Override
+        public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+            return o1.getKey().compareTo(o2.getKey());
+
+        }
+    };
+
+    Map<Integer, Account> accTreeMap = new TreeMap<>(SORT_BY_ID_ASC);
 
     /*Storing the account details as Key-Value pairs using put() method*/
     @Override
@@ -76,6 +92,5 @@ public class AccountServiceTreeMapImpl implements AccountService {
                 throw new AccountException("Can't Delete, No Account found");
             }
         }
-
     }
 }

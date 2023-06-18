@@ -62,7 +62,6 @@ public class AccountServiceArrLstImpl implements AccountService {
         if(!isDeleted) {
             throw new AccountException("Can't Delete, No Account found");
         }
-
     }
 }
 
