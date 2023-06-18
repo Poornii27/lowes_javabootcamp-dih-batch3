@@ -39,7 +39,7 @@ public class BankingAppMain {
                     int counter = in.nextInt();
                     System.out.println("Creating Accounts...");
                     for(int i = 0;i <counter;i++) {
-                        Account newAcc = captureAccountDetails(false);
+                        Account newAcc = captureAccountDetails(true);
                         accService.createAccount(newAcc);
                     }
                     System.out.println("Accounts created successfully, Select an option to proceed");
@@ -103,21 +103,8 @@ public class BankingAppMain {
                     catch(AccountException ex) {
                         System.out.println(ex.getMessage());}
                     break;
-               /* case 6:
-                    *//*==========Printing the Statistics*//*
-                    System.out.println("***** Printing the Statistics *****");
-                    int res1 = accService.balanceAccount();
-                    System.out.println("No of accounts with Balance over 1 lac is: "+ res1);
-                    System.out.println("***Number of accounts by the Account Type***");
-                    accService.getAccountsByType();
-                    System.out.println("***Number of accounts by the Account Type: Sorted***");
-                    accService.getAccountsByTypeSorted();
-                    System.out.println("***Average Balance by the Account Type: ");
-                    accService.getAverageBalanceByType();
-                    System.out.println("***Account Ids containing the name: Kumar");
-                    accService.getAccountIdsContainsName("Kumar");*/
 
-                case 6:
+                    case 6:
                     System.out.println("Thank you for visiting "+ nameOfTheBank +". Have a nice day!");
                     break;
 
