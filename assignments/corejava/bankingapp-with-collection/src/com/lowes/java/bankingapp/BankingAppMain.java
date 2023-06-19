@@ -20,9 +20,9 @@ public class BankingAppMain {
    // static AccountService accService = new AccountServiceArrLstImpl();
     //static AccountService accService = new AccountServiceLnkLstImpl();
     //static AccountService accService = new AccountServiceHashSetImpl();
-    //static AccountService accService = new AccountServiceHashMapImpl();
+    static AccountService accService = new AccountServiceHashMapImpl();
     //static AccountService accService = new AccountServiceTreeSetImpl();
-    static AccountService accService = new AccountServiceTreeMapImpl();
+    //static AccountService accService = new AccountServiceTreeMapImpl();
 
 
     public static void main(String[] args) throws AccountException {
