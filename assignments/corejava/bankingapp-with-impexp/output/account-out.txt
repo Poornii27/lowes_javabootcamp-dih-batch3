@@ -1,3 +1,5 @@
+1,Sami,Savings,12.12,true
+2,Poorni Chandru,Loan,12.3,true
 301,Chandru,Personal,321.32,false
-10000,Poo,Loan,1000.0,false
+10000,Foo,Loan,1000.0,false
 100002,Bar,Loan,2000.0,false
