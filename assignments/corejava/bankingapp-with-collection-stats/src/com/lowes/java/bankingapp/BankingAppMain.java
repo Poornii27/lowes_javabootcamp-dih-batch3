@@ -142,8 +142,6 @@ public class BankingAppMain {
         System.out.println("4. Update an Account");
         System.out.println("5. Delete an Account");
         System.out.println("6. Print Statistics");
-        //System.out.println("7. Import");
-        //System.out.println("8. Export");
         System.out.println("7. Exit");
     }
 
