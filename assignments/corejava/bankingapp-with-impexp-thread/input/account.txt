@@ -1,0 +1,3 @@
+10000,Foo,Loan,1000.0,false;
+100002,Bar,Loan,2000.0,false;
+301,Chandru,Personal,321.32,false;
