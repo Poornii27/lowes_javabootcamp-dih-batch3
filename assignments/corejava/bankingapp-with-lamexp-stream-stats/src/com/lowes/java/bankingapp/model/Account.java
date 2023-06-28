@@ -1,6 +1,8 @@
 package com.lowes.java.bankingapp.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.Locale;
 
 public class Account{
     private int id;
@@ -15,12 +17,13 @@ public class Account{
 
     }
 
-    public Account(int id, String name, String type, double balance, boolean active) {
+    public Account(int id, String name, String type, double balance, boolean active, LocalDate createdDate) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.balance = balance;
         this.active = active;
+        this.createdDate =  createdDate;
     }
 
     public int getId() {
@@ -83,6 +86,8 @@ public class Account{
                 ", type='" + type + '\'' +
                 ", balance=" + balance +
                 ", active=" + active +
+                ", created on=" + createdDate.format(new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("dd-MMM-yyyy").toFormatter(Locale.ENGLISH)) +
+                ", updated on=" + updatedDate +
                 '}';
     }
 

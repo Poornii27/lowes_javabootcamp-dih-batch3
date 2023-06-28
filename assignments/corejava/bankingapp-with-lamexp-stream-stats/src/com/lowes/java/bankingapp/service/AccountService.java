@@ -23,4 +23,5 @@ public interface AccountService {
     public void ImportData() throws FileNotFoundException;
     public void ExportData() throws IOException;
 
+    public Map<String, Double> getAverageAgeOfAccounts();
 }
