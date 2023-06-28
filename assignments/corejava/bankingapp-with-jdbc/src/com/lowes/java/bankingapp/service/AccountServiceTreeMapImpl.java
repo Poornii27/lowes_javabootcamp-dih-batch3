@@ -5,6 +5,11 @@ import com.lowes.java.bankingapp.dao.AccountDaoJDBCImpl;
 import com.lowes.java.bankingapp.exception.AccountException;
 import com.lowes.java.bankingapp.model.Account;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoUnit;
+
 import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
@@ -51,16 +56,21 @@ public class AccountServiceTreeMapImpl implements AccountService {
 
     @Override
     public boolean createAccount(Account account) throws AccountException, SQLException {
-        Predicate<Account> create = account1 -> (account1.getName().length() > 2 && account1.getBalance() > 0.0);
+        Predicate<Account> create = account1 -> (account1.getName().length() > 2 && account1.getBalance() >= 100.0);
         boolean valStatus = create.test(account);
 
         if(valStatus){
+            System.out.println( "Accounts created successfully");
             return accountDao.createAccount(account);
         }
         else
         {
-            throw new AccountException("Invalid Name or Balance entered. Please choose again!!!");
+            int count = account.getId();
+            System.out.println("Please check if Name contains atleast three characters and please have a minimum balance of Rs 100 ");
+            System.out.println("Account" +"\t"+ count +" " + "Creation Failed, Please Create Another Account");
+
         }
+        return valStatus;
     }
 
     @Override
@@ -142,6 +152,32 @@ public class AccountServiceTreeMapImpl implements AccountService {
                 .forEach(System.out::println);
     }
 
+    public long findDifferenceInDays(LocalDate createDate) {
+        return ChronoUnit.DAYS.between(createDate, LocalDate.now());
+    }
+
+    @Override
+    public Map<String, Double> getAverageAgeOfAccounts() {
+        Map<String, Double> averageAges = new HashMap<>();
+        Map<String, Long> totalDays = new HashMap<>();
+        Map<String, Integer> counts = new HashMap<>();
+
+        for (Account account : accTreeMap.values()) {
+            String accountType = account.getType();
+            long daysSinceCreation = findDifferenceInDays(account.getCreatedDate());
+
+            totalDays.put(accountType, totalDays.getOrDefault(accountType, 0L) + daysSinceCreation);
+            counts.put(accountType, counts.getOrDefault(accountType, 0)+1);
+        }
+        for (String accountType : totalDays.keySet()) {
+            long totalDaysForType = totalDays.get(accountType);
+            int countForType = counts.get(accountType);
+            double averageAge = (double)totalDaysForType/countForType;
+            averageAges.put(accountType, averageAge);
+        }
+        return averageAges;
+    }
+
     @Override
     public synchronized void ImportData() throws SQLException {
         try (Scanner in = new Scanner(new FileReader("./input/account.txt"))) {
@@ -153,8 +189,9 @@ public class AccountServiceTreeMapImpl implements AccountService {
                 String type = wordlist[2].trim();
                 double balance = Double.parseDouble(wordlist[3].trim());
                 boolean isActive = Boolean.parseBoolean(wordlist[4].trim());
-                Account account = new Account(id, name, type, balance, isActive);
-               // accTreeMap.put(id, account);
+                DateTimeFormatter dtf = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("dd-MMM-yyyy").toFormatter(Locale.ENGLISH);
+                LocalDate createdDate = LocalDate.parse(wordlist[5].trim(), dtf);
+                Account account = new Account(id, name, type, balance, isActive, createdDate);
                 accountDao.createAccount(account);
                 Thread.sleep(2000);
             }
@@ -172,7 +209,7 @@ public class AccountServiceTreeMapImpl implements AccountService {
                     .getAccounts()
                     .stream()
                     .map(account -> account.getId()+"\t"+account.getName()+"\t"+account.getType()+"\t"
-                            +account.getBalance()+"\t"+account.isActive())
+                            +account.getBalance()+"\t"+account.isActive()+"\t"+account.getCreatedDate()+"\t"+account.getUpdatedDate())
                     .forEach(accs-> {
                                 try {
                                     out.write(accs + "\n");

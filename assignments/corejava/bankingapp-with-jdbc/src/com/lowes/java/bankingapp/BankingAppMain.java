@@ -52,6 +52,8 @@ public class BankingAppMain {
                     System.out.println("Creating Accounts...");
                     for(int i = 0;i <counter;i++) {
                         Account newAcc = captureAccountDetails(false);
+                        LocalDate createdDate = getCreatedDateByType(newAcc.getType());
+                        newAcc.setCreatedDate(createdDate);
                         accService.createAccount(newAcc);
                     }
                     break;
@@ -93,6 +95,8 @@ public class BankingAppMain {
                     /*============Update Account===============*/
                     System.out.println("Update an Account for a given Account id...");
                     Account accountUpdate = captureAccountDetails(true);
+                    accountUpdate.setCreatedDate(getCreatedDateByType(accountUpdate.getType()));
+                    accountUpdate.setUpdatedDate(LocalDate.now());
                     try {
                         accService.updateAccount(accountUpdate.getId(),accountUpdate);
                         System.out.println("Account Updated");
@@ -118,7 +122,9 @@ public class BankingAppMain {
                     catch(AccountException ex) {
                         System.out.println(ex.getMessage());}
                     break;
+
                 case 6:
+                    Map<String, Double> avgAge = new HashMap<>();
                     /*==========Printing the Statistics*/
                     System.out.println("***** Printing the Statistics *****");
                     long res1 = accService.balanceAccount(100000.00);
@@ -145,13 +151,22 @@ public class BankingAppMain {
                     System.out.println("---------------------------------------------");
                     System.out.println("***Account Ids containing the name: Kumar");
                     accService.getAccountIdsContainsName("Kumar");
+                    System.out.println("---------------------------------------------");
+                    System.out.println("***Average account age (in days) for each type");
+                    avgAge = accService.getAverageAgeOfAccounts();
+                    System.out.println("---------------------------------------------");
+                    for (Map.Entry<String, Double> entry : avgAge.entrySet()) {
+                        String type = entry.getKey();
+                        double days = entry.getValue();
+                        System.out.println("Average Age for " + type + " is: " + days);
+                    }
                     break;
                 case 7:
                     Callable<Boolean> imp = new Callable<Boolean>() {
                         @Override
                         public Boolean call() throws Exception {
                             System.out.println(Thread.currentThread() + " Waiting to start importing");
-                            Thread.sleep(3000);
+                            Thread.sleep(1000);
                             accService.ImportData();
                             return true;
                         }
@@ -202,7 +217,18 @@ public class BankingAppMain {
         System.out.println("8. Export");
         System.out.println("9. Exit");
     }
-
+    public static LocalDate getCreatedDateByType(String accountType) {
+        switch (accountType) {
+            case "DEPOSIT":
+                return LocalDate.of(2023,01,01);
+            case "SAVINGS":
+                return LocalDate.of(2023, 02, 01);
+            case "LOAN":
+                return  LocalDate.of(2023, 03, 01);
+            default:
+                return LocalDate.now();
+        }
+    }
     /*================Stores the details given by the user===============*/
 
     public static Account captureAccountDetails(boolean isUpdate) {
@@ -227,10 +253,10 @@ public class BankingAppMain {
         }
         account.setId(id);
 
-        System.out.println("What is the name of the Account Holder? ");
+        System.out.println("Enter the name of the Account Holder? ");
         account.setName(in.nextLine());
 
-        System.out.println("What is the Account Type? ");
+        System.out.println("Enter the Account Type? ");
         String inp = in.nextLine();
         Type t = Type.DEPOSIT;
 
@@ -238,7 +264,7 @@ public class BankingAppMain {
                 inp.equalsIgnoreCase(Type.LOAN.toString())))
         {
             System.out.println("Invalid choice, please choose Deposit,Savings or Loan");
-            System.out.println("What is the Account Type? ");
+            System.out.println("Enter the Account Type? ");
             inp = in.nextLine();
         }
 
@@ -257,12 +283,12 @@ public class BankingAppMain {
 
         account.setType(String.valueOf(t));
 
-        System.out.println("What is the Account Balance? ");
+        System.out.println("Enter the Account Balance? ");
         double balance = 0.0;
         try { balance = in.nextDouble();}
         catch (InputMismatchException e) {
             System.out.println("Invalid input, please enter only numbers; This field is decimal friendly.!");
-            System.out.println("What is the Account Balance? ");
+            System.out.println("Enter the Account Balance? ");
             in = new Scanner(System.in);
             balance = in.nextDouble();
         }

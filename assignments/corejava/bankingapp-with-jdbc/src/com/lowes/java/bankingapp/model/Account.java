@@ -1,6 +1,12 @@
 package com.lowes.java.bankingapp.model;
 
+import org.jetbrains.annotations.Nullable;
+
+import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.Locale;
+import java.util.Optional;
 
 public class Account{
     private int id;
@@ -15,12 +21,24 @@ public class Account{
 
     }
 
-    public Account(int id, String name, String type, double balance, boolean active) {
+    public Account(int id, String name, String type, double balance, boolean active, LocalDate createdDate, LocalDate updatedDate ) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.balance = balance;
         this.active = active;
+        this.createdDate =  createdDate;
+        this.updatedDate = updatedDate;
+    }
+
+    public Account(int id, String name, String type, double balance, boolean active, LocalDate createdDate) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.balance = balance;
+        this.active = active;
+        this.createdDate =  createdDate;
+
     }
 
     public int getId() {
@@ -48,7 +66,7 @@ public class Account{
     public LocalDate getCreatedDate() {
         return createdDate;
     }
-    public  LocalDate getUpdatedDate() {
+    public LocalDate getUpdatedDate() {
         return  updatedDate;
     }
     public boolean isActive() {
@@ -83,6 +101,8 @@ public class Account{
                 ", type='" + type + '\'' +
                 ", balance=" + balance +
                 ", active=" + active +
+                ", created on=" + createdDate.format(new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("dd-MMM-yyyy").toFormatter(Locale.ENGLISH)) +
+                ", updated on=" + updatedDate +
                 '}';
     }
 

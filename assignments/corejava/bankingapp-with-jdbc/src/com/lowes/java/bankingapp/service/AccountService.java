@@ -21,6 +21,9 @@ public interface AccountService {
     public List<Map.Entry<String, Long>> getAccountsByTypeSorted() throws SQLException;
     public void getAverageBalanceByType() throws SQLException;
     public void getAccountIdsContainsName(String name) throws SQLException;
+
+    public Map<String, Double> getAverageAgeOfAccounts();
+
     public void ImportData() throws FileNotFoundException, SQLException;
     public void ExportData() throws IOException, SQLException;
 
