@@ -87,7 +87,7 @@ public class AccountDaoJDBCImpl implements AccountDao {
                 Date updatedDate = rs.getDate("updated_date");
                 LocalDate updateDateNew = null;
                 if(updatedDate == null) {
-                    updateDateNew = LocalDate.of(1900,01,01);
+                    updateDateNew = null; //LocalDate.of(1900,01,01);
                 }
                 else {
                     updateDateNew=rs.getDate("updated_date").toLocalDate();
@@ -123,11 +123,16 @@ public class AccountDaoJDBCImpl implements AccountDao {
                 String type = rs.getString("type");
                 Double balance = rs.getDouble("balance");
                 Boolean active = rs.getBoolean("active");
-                Date createdDate = rs.getDate("created_date");
+                LocalDate createdDate = rs.getDate("created_date").toLocalDate();
                 Date updatedDate = rs.getDate("updated_date");
-                acc = (new Account(id,name,type,balance,active,
-                        createdDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                        updatedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
+                LocalDate updatedDateNew = null;
+                if(updatedDate == null) {
+                    updatedDateNew = null;
+                }
+                else {
+                    updatedDateNew = rs.getDate("updated_date").toLocalDate();
+                }
+                acc = (new Account(id,name,type,balance,active,createdDate,updatedDateNew));
             }
 
         } catch (SQLException e) {
@@ -155,10 +160,8 @@ public class AccountDaoJDBCImpl implements AccountDao {
             pstmt.setDouble(3, account.getBalance());
             pstmt.setBoolean(4, account.isActive());
             pstmt.setDate(5, Date.valueOf(account.getCreatedDate()));
-            pstmt.setDate(6, Date.valueOf(account.getUpdatedDate()));
+            pstmt.setDate(6, Date.valueOf(account.getUpdatedDate().orElse(null)));
             pstmt.setInt(7,account.getId());
-
-
             status = pstmt.executeUpdate() > 0 ? true : false;
 
         } catch (SQLException e) {

@@ -209,7 +209,7 @@ public class AccountServiceTreeMapImpl implements AccountService {
                     .getAccounts()
                     .stream()
                     .map(account -> account.getId()+"\t"+account.getName()+"\t"+account.getType()+"\t"
-                            +account.getBalance()+"\t"+account.isActive()+"\t"+account.getCreatedDate()+"\t"+account.getUpdatedDate())
+                            +account.getBalance()+"\t"+account.isActive()+"\t"+account.getCreatedDate()+"\t"+account.getUpdatedDate().orElse(null))
                     .forEach(accs-> {
                                 try {
                                     out.write(accs + "\n");

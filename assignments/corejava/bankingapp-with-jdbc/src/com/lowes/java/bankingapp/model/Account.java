@@ -1,7 +1,5 @@
 package com.lowes.java.bankingapp.model;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatterBuilder;
@@ -15,10 +13,10 @@ public class Account{
     private double balance;
     private boolean active;
     private LocalDate createdDate;
-    private LocalDate updatedDate;
+    private Optional<LocalDate> updatedDate;
 
     public Account() {
-
+        updatedDate = Optional.empty();
     }
 
     public Account(int id, String name, String type, double balance, boolean active, LocalDate createdDate, LocalDate updatedDate ) {
@@ -28,7 +26,7 @@ public class Account{
         this.balance = balance;
         this.active = active;
         this.createdDate =  createdDate;
-        this.updatedDate = updatedDate;
+        this.updatedDate = Optional.ofNullable(updatedDate);
     }
 
     public Account(int id, String name, String type, double balance, boolean active, LocalDate createdDate) {
@@ -61,13 +59,13 @@ public class Account{
         this.createdDate = createdDate;
     }
     public void setUpdatedDate(LocalDate updatedDate) {
-        this.updatedDate = updatedDate;
+        this.updatedDate = Optional.ofNullable(updatedDate);
     }
     public LocalDate getCreatedDate() {
         return createdDate;
     }
-    public LocalDate getUpdatedDate() {
-        return  updatedDate;
+    public Optional<LocalDate> getUpdatedDate() {
+        return updatedDate;
     }
     public boolean isActive() {
         return active;
@@ -102,7 +100,7 @@ public class Account{
                 ", balance=" + balance +
                 ", active=" + active +
                 ", created on=" + createdDate.format(new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("dd-MMM-yyyy").toFormatter(Locale.ENGLISH)) +
-                ", updated on=" + updatedDate +
+                ", updated on=" + updatedDate.orElse(null) +
                 '}';
     }
 
