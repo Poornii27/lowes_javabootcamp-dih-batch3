@@ -45,6 +45,7 @@ public class AccountServiceTreeMapImpl implements AccountService {
 
     @Override
     public void createAccount(Account account) throws AccountException {
+
         Predicate<Account> create = account1 -> (account1.getName().length() > 2 && account1.getBalance() >= 100.0);
         boolean valStatus = create.test(account);
 
@@ -218,9 +219,11 @@ public class AccountServiceTreeMapImpl implements AccountService {
                 sb.append(account.getName()).append(",");
                 sb.append(account.getType()).append(",");
                 sb.append(account.getBalance()).append(",");
-                sb.append(account.isActive());
+                sb.append(account.isActive()).append(",");
+                sb.append(account.getCreatedDate()).append(",");
+                sb.append(account.getUpdatedDate()).append(",");
                 out.write(sb.toString() + "\n");
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             }
             out.flush();
             System.out.format("%s Account data exported successfully.", Thread.currentThread().getName());

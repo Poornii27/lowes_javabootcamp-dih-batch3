@@ -1,6 +1,11 @@
-100,Foo Kumar,Loan,500000.0,false
-101,Kumaran,Loan,200000.0,false
-102,ChaKumarndru,Savings,4000.0,false
-103,Foo,Deposit,1200.0,false
-104,GaneshKuMaRh,Savings,6000.0,false
-105,Priya,Deposit,1800.0,false
+1,Saminathan Raju,LOAN,122.0,true,2023-03-01,null,
+2,Poornima,DEPOSIT,101.0,true,2023-01-01,null,
+3,Vihaan Saminathan,SAVINGS,9901.0,false,2023-02-01,null,
+4,Ahaana Saminathan,DEPOSIT,100.0,true,2023-01-01,null,
+5,Raju V,LOAN,100.0,true,2023-03-01,null,
+101,Kumaran,LOAN,200000.0,false,2021-05-11,null,
+102,ChaKumarndru,SAVINGS,4000.0,false,2022-06-11,null,
+103,Foo,DEPOSIT,1200.0,true,2023-01-12,null,
+7,Vasanthi V,LOAN,9999.0,true,2023-03-01,2023-06-29,
+104,GaneshKuMaRh,SAVINGS,6000.0,true,2022-01-26,null,
+105,Priya,DEPOSIT,1800.0,false,1983-09-17,null,

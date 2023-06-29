@@ -118,6 +118,7 @@ public class BankingAppMain {
                     catch(AccountException ex) {
                         System.out.println(ex.getMessage());}
                     break;
+
                 case 6:
                     Map<String, Double> avgAge = new HashMap<>();
                     /*==========Printing the Statistics*/
@@ -235,7 +236,6 @@ public class BankingAppMain {
         int id =0;
         try {
             if(!isUpdate) {
-                //id = in.nextInt(); in.nextLine();
                 id = count.incrementAndGet();
                 System.out.println("The Account ID for the new account is: " + id);
             }
