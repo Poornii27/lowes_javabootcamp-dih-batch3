@@ -22,15 +22,7 @@ public class AccountServiceTreeMapImpl implements AccountService {
             return o2 - o1;
         }
     };
-
-    Comparator<Map.Entry<String, Integer>> comp = new Comparator<Map.Entry<String, Integer>>() {
-        @Override
-        public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-            return o1.getKey().compareTo(o2.getKey());
-
-        }
-    };
-
+  
     Map<Integer, Account> accTreeMap = new TreeMap<>(SORT_BY_ID_ASC);
 
     /*Storing the account details as Key-Value pairs using put() method*/
