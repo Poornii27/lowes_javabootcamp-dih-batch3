@@ -226,8 +226,8 @@ public class AccountServiceTreeMapImpl implements AccountService {
     }
 
     @Override
-    public synchronized void ImportData() {
-        try (Scanner in = new Scanner(new FileReader("./input/account.txt"))) {
+    public synchronized Map<Integer, Account>  ImportData(String filePath) {
+        try (Scanner in = new Scanner(new FileReader(filePath))) {
             while (in.hasNext()) {
                 String line = in.nextLine();
                 String[] wordlist = line.split(",");
@@ -247,11 +247,13 @@ public class AccountServiceTreeMapImpl implements AccountService {
         } catch (Exception e) {
             System.out.println("Error occurred while importing. " + e.getMessage());
         }
+        return accTreeMap;
     }
 
     @Override
-    public void ExportData() {
-        try (FileWriter out = new FileWriter("./output/account-out.txt")) {
+    public void ExportData(String filePath, Map<Integer, Account> accMap) {
+        try (FileWriter out = new FileWriter(filePath)) {
+            if(accMap != null) { accTreeMap = accMap; }
             for (Map.Entry<Integer, Account> entry : accTreeMap.entrySet()) {
                 int id = entry.getKey();
                 Account account = entry.getValue();

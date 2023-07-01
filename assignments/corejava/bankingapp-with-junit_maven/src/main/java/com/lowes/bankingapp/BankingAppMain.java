@@ -162,7 +162,7 @@ public class BankingAppMain {
                         public Boolean call() throws Exception {
                             System.out.println(Thread.currentThread() + " Waiting to start importing");
                             Thread.sleep(1000);
-                            accService.ImportData();
+                            accService.ImportData("./input/account.txt");
                             return true;
                         }
                     };
@@ -175,7 +175,7 @@ public class BankingAppMain {
                         public Boolean call() throws Exception {
                             System.out.println(Thread.currentThread() + " Waiting to start exporting");
                             Thread.sleep(1000);
-                            accService.ExportData();
+                            accService.ExportData("./output/account-out.txt", null);
                             return true;
                         }
                     };

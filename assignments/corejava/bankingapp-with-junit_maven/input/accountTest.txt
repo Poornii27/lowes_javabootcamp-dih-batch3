@@ -1,0 +1,4 @@
+1002,ChaKumarndru,Savings,4000.0,false,11-Jun-2022
+1003,Foo,Deposit,1200,true,12-Jan-2023
+1004,GaneshKuMaRh,Savings,6000.0,true,26-Jan-2022
+1005,Priya,Deposit,1800,false,17-Sep-1983

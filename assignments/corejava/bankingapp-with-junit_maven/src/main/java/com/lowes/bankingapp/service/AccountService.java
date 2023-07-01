@@ -20,8 +20,8 @@ public interface AccountService {
     public List<Map.Entry<String, Long>> getAccountsByTypeSorted();
     public List<Map.Entry<String, Double>> getAverageBalanceByType();
     public Set<Integer> getAccountIdsContainsName(String name);
-    public void ImportData() throws FileNotFoundException;
-    public void ExportData() throws IOException;
+    public Map<Integer, Account>  ImportData(String filePath) throws FileNotFoundException;
+    public void ExportData(String filePath, Map<Integer, Account> accMap) throws IOException;
 
     public Map<String, Double> getAverageAgeOfAccounts();
 

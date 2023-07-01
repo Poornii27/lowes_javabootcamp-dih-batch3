@@ -3,19 +3,22 @@ package com.lowes.bankingapp;
 import com.lowes.bankingapp.model.Account;
 import com.lowes.bankingapp.service.AccountServiceTreeMapImpl;
 import com.lowes.bankingapp.exception.AccountException;
-import com.lowes.bankingapp.service.*;
 import org.junit.jupiter.api.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.time.LocalDate;
-import java.time.Month;
-
+import java.time.temporal.ChronoUnit;
+import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class BankingApplnTest {
 
     AccountServiceTreeMapImpl accountService = new AccountServiceTreeMapImpl();
-
+    Map<Integer, Account> retVal = null;
 
     @BeforeEach
     public void setup() throws AccountException {
@@ -25,22 +28,22 @@ public class BankingApplnTest {
         Account account1 = new Account();
 
         account1.setId(1);
-        account1.setName("Poorni");
+        account1.setName("Pankaj Kumar");
         account1.setType("Loan");
         account1.setBalance(2000.0);
         account1.setActive(true);
-        account1.setCreatedDate(LocalDate.of(12,02,27));
+        account1.setCreatedDate(LocalDate.of(2022,02,27));
         account1.setUpdatedDate(LocalDate.now());
         accountService.createAccount(account1);
 
 
         Account account2 = new Account();
         account2.setId(2);
-        account2.setName("Sami");
+        account2.setName("Pradeep Kumar Pandey");
         account2.setType("Deposit");
         account2.setBalance(1200.0);
         account2.setActive(true);
-        account2.setCreatedDate(LocalDate.of(18,05,21));
+        account2.setCreatedDate(LocalDate.of(2022,05,21));
         account2.setUpdatedDate(LocalDate.now());
         accountService.createAccount(account2);
 
@@ -50,7 +53,7 @@ public class BankingApplnTest {
         System.out.println("Test data clean up at each test case level..");
     }
 
-    //Positive Testcases
+    //Account Creation Testcases
     @Test
     public void shouldCreateAccount_WhenPassingCorrectDetails() throws AccountException {
         Account account = new Account();
@@ -64,7 +67,6 @@ public class BankingApplnTest {
         assertEquals(3, accountService.getAccounts().size());
     }
 
-    //negative Testcases
     @Test
     public void shouldnotCreateAccount_WhenPassingInCorrectName() {
         Account account = new Account();
@@ -124,12 +126,13 @@ public class BankingApplnTest {
         assertEquals("Invalid Type,Please Choose Deposit,Loan or Savings", ex.getMessage());
     }
 
-
+//Get All Accounts Testcase
     @Test
     public void shouldReturnAllAccounts_WhenAccountIdIsNotMentioned() {
         assertEquals(2, accountService.getAccounts().size());
     }
 
+    //View an Account Testcases
     @Test
     public void shouldReturnAnAccount_WhoseAccountIdIsMentioned() throws AccountException {
         assertNotNull(accountService.getAccount(2));
@@ -157,6 +160,7 @@ public class BankingApplnTest {
         assertEquals("Vihaana",accountService.getAccount(2).getName());
     }
 
+    //Update Account Testcases
     @Test
     public void shouldNotUpdateAccount_WhenInvalidIdIsProvided() {
         Account account = new Account();
@@ -205,10 +209,10 @@ public class BankingApplnTest {
         assertEquals("Account Creation Failed, Please Create Another Account", ex.getMessage());
     }
 
+    //Delete Account Testcase
     @Test
     public void shouldDeleteAccount_WhenValidIdIsProvided() throws AccountException {
         accountService.deleteAccount(2);
-     //   Throwable ex = assertThrows(Exception.class,()-> accountService.getAccount(2));
         assertEquals(1,accountService.getAccounts().size());
     }
 
@@ -219,7 +223,7 @@ public class BankingApplnTest {
         assertEquals("Can't Delete, No Account found",ex.getMessage());
     }
 
-    //***************************Print Statistics*************************/
+    //Print Statistics Testcases
 
     @Test
     public void shouldDisplayNumberOfAccounts_WhenBalanceGreaterThanLimit() throws AccountException {
@@ -355,6 +359,58 @@ public class BankingApplnTest {
         accountService.createAccount(account1);
         assertEquals(3,accountService.getAverageBalanceByType().size());
     }
+
+    @Test
+    public void containsNameTest() {
+        assertEquals(2, accountService.getAccountIdsContainsName("Kumar").size());
+    }
+
+    @Test
+    public void getAverageAgeOfAccountsTest() throws AccountException {
+
+        Account acc1 = accountService.getAccount(1);
+        Account acc2 = accountService.getAccount(2);
+
+        long daysBetweenLoan = ChronoUnit.DAYS.between(acc1.getCreatedDate(), LocalDate.now());
+        long daysBetweenDeposit = ChronoUnit.DAYS.between(acc2.getCreatedDate(), LocalDate.now());
+
+        Map<String, Double> returnValue = accountService.getAverageAgeOfAccounts();
+        assertEquals("Deposit", returnValue.keySet().toArray()[0]);
+        assertEquals("Loan", returnValue.keySet().toArray()[1]);
+        //This code works irrespective of the execution date.
+        assertTrue(daysBetweenDeposit >= 406);
+        assertTrue(daysBetweenLoan >= 489);
+
+    }
+
+    //Import File Testcase
+    @Test
+    public void ImportFileTest() throws IOException {
+        //Import validation - 2 from BeforeEach block and 4 from the Test file
+        retVal  = accountService.ImportData("./input/accountTest.txt");
+        assertEquals(6, retVal.size());
+    }
+
+    //Export File Testcase
+    @Test
+    public void ExportFileTest() throws IOException {
+        //Before Export- Checking for empty file
+        String fileName = "./output/accountTestOut.txt";
+        RandomAccessFile file = new RandomAccessFile(fileName, "rw");
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        file.setLength(0);
+        assertEquals(null, br.readLine());
+        br.close();
+
+        //After export - checking for loaded file.  Comparing the number of lines
+        accountService.ExportData(fileName, retVal);
+        BufferedReader br1 = new BufferedReader(new FileReader(fileName));
+        int lines = 0;
+        while (br1.readLine() != null) lines ++;
+        br1.close();
+        assertEquals(2, lines);
+    }
+
 }
 
 
