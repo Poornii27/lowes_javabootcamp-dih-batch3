@@ -1,8 +1,0 @@
-2,sami,SAVINGS,1234567.0,true
-3,ahaana,SAVINGS,56789.0,true
-100,Foo Kumar,LOAN,500000.0,false
-101,Kumaran,LOAN,200000.0,false
-102,ChaKumarndru,SAVINGS,4000.0,false
-103,Foo,DEPOSIT,1200.0,true
-104,GaneshKuMaRh,SAVINGS,6000.0,true
-105,Priya,DEPOSIT,1800.0,false
