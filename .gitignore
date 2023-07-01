@@ -1,13 +1,16 @@
 *.project
 *.classpath
 *.springbeans
+*.iml
 **/*.settings
 **/*.idea
 **/target
 **/bin
 **/build
+**/out
 **/RemoteSystemsTempFiles
 **/servers
+**/.DS_Store
 **/.metadata
 **/.settings
 **/.recommenders
