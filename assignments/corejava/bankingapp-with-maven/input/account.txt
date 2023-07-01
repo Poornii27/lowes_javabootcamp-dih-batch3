@@ -1,0 +1,6 @@
+100,Foo Kumar,Loan,500000.0,false,01-SEP-2022,
+101, Kumaran,Loan,200000.0,false,11-MAY-2021,
+102,ChaKumarndru,Savings,4000.0,false,11-Jun-2022,
+103,Foo,Deposit,1200,true,12-Jan-2023,
+104,GaneshKuMaRh,Savings,6000.0,true,26-Jan-2022,
+105,Priya,Deposit,1800,false,17-Sep-1983,
