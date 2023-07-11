@@ -1,9 +1,0 @@
-2	sami	SAVINGS	20000.0	true	2023-02-01	null
-4	ahaana	LOAN	2345.0	true	2023-03-01	null
-3	vihaana	SAVINGS	23456.0	true	2023-07-09	2023-07-09
-5	Foo Kumar	Loan	500000.0	false	2022-09-01	null
-6	Kumaran	Loan	200000.0	false	2021-05-11	null
-7	ChaKumarndru	Savings	4000.0	false	2022-06-11	null
-8	Foo	Deposit	1200.0	true	2023-01-12	null
-9	GaneshKuMaRh	Savings	6000.0	true	2022-01-26	null
-10	Priya	Deposit	1800.0	false	1983-09-17	null
