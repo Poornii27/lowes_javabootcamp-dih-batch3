@@ -299,8 +299,4 @@ public class AccountServiceTreeMapImplTest {
         br1.close();
         assertEquals(2, lines);
     }
-
 }
-
-
-
